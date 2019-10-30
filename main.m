@@ -10,7 +10,7 @@ robot.dl_max = 0.05;
 robot.dl_d_max = 1;
 robot.k = 550;
 
-t1_int = linspace(0, 5, 2000);
+t1_int = linspace(0, 5, 5000);
 
 t = [];
 x = [];
@@ -21,8 +21,8 @@ q_des_ar = [];
 dl_array = [];
 moment_ar = [];
 
-x_0 = [-0.0,1.0,0.0,0,-0.5,0.0,0.0]';
-for i = 1:8
+x_0 = [-0.0,1.0,0.0,0.0,-0.5,0.0,0.0]';
+for i = 1:60
 
     q_des = flight_control(x_0,robot);
 
@@ -37,7 +37,7 @@ for i = 1:8
         break
     end
     
-    t2_int = linspace(t1(end), t1(end)+5,2000);
+    t2_int = linspace(t1(end), t1(end)+5,5000);
     x_0 = x1(end,:)';
     p3 = [x_0(1) + robot.d/2*sin(x_0(3) + q_des)
           x_0(2) - robot.d/2*cos(x_0(3) + q_des)
@@ -56,7 +56,7 @@ for i = 1:8
         break
     end
     
-    t1_int = linspace(t2(end), t2(end)+5,2000);
+    t1_int = linspace(t2(end), t2(end)+5,5000);
     x_0 = x2(end,:)';
 
 end
