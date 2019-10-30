@@ -2,7 +2,7 @@ function visualize_tensegrity(robot,q,p3_array,p4_array)
     fig = figure;
     fig.Name = "animation";
     filename = 'testAnimated.gif';
-    for i = 1:8:length(q)
+    for i = 1:20:length(q)
         clf
         x = q(i,1);
         y = q(i,2);

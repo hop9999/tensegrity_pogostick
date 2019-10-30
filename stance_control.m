@@ -1,20 +1,22 @@
-function dl = stance_control(q,robot)
+function dl_d = stance_control(q,moment,robot)
+    dl = q(4);
     theta = q(3);
-    theta_d = q(6);
-    kq = 1.5;
-    kq_d = 0.5;
-    dl = kq*(0 - theta) + kq_d*(0 - theta_d)
-
-    if robot.dl + dl > robot.dl_max
-        dl = robot.dl_max - robot.dl;
+    theta_d = q(7);
+    kq = 0;
+    kq_d = 100;
+    km = 1 - 10*abs(theta);
+    dl_d = kq*(0 - theta) + kq_d*(0 - theta_d) + km*(0 - moment);
+    
+    if dl_d > robot.dl_d_max
+        dl_d = robot.dl_d_max;
     end
-    if robot.dl + dl < -robot.dl_max
-        dl = -robot.dl_max - robot.dl;
+    if dl_d < -robot.dl_d_max
+        dl_d = -robot.dl_d_max;
     end
-    if robot.dl > robot.dl_max
-        dl = 0;
+    if dl > robot.dl_max
+        dl_d = 0;
     end
-    if robot.dl < -robot.dl_max
-        dl = 0;
+    if dl < -robot.dl_max
+        dl_d = 0;
     end
 end
