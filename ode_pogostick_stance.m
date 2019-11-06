@@ -16,15 +16,14 @@ function dxdt = ode_pogostick_stance(t,q,p3,robot)
     p2 = CoM - r;
     
     dl = q(4);
-    [p4, f14, f13, f24, f23] = pogostick_static(p1,p2,p3,dl,robot);
-    moment = (skew(r)*(-f14) + skew(r)*(-f13) + skew(-r)*(-f24) + skew(-r)*(-f23))/robot.I;
-    dl_d = stance_control(q,moment(3),robot);
+    [p4, f14, f13, f24, f23] = static_stance(p1,p2,p3,dl,robot);
+    moment = moment_massive_rod(theta,f14,f13,f24,f23,robot);
+    dl_d = stance_control(q,moment,robot);
     
     pos_eq = (robot.m*g - f14 - f24 - f13 - f23)/robot.m;
-    orient_eq = (skew(r)*(-f14) + skew(r)*(-f13) + skew(-r)*(-f24) + skew(-r)*(-f23))/robot.I;
 
     n = [pos_eq(1:2)
-         orient_eq(3)];
+         moment];
     dxdt = zeros(7,1);
     
     dxdt(1:3) = q(5:7);
